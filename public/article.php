@@ -6,7 +6,9 @@ if (empty($_GET['id'])) {
     die();
 }
 
-if (!$article = Article::findById((int)$_GET['id'])) {
+$article = Article::findById((int)$_GET['id']);
+
+if (empty($article)) {
     http_response_code(404);
     die();
 }
