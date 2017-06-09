@@ -1,9 +1,14 @@
 <?php
-require __DIR__ . '/../Db.php';
+
+namespace App\Models;
+
+use App\Db;
 
 abstract class Model
 {
     protected static $table;
+
+    public $id;
 
     public static function findAll(): array
     {
@@ -25,5 +30,61 @@ abstract class Model
         $result = (new Db())->query($sql, static::class, [':id' => $id]);
 
         return empty($result) ? false : array_shift($result);
+    }
+
+    public function save(): bool
+    {
+        if (empty($this->id)) {
+            return $this->insert();
+        }
+
+        return $this->update();
+    }
+
+    public function delete(): bool
+    {
+        $sql = 'DELETE FROM ' . static::$table . ' WHERE id=:id';
+
+        return (new Db())->execute($sql, [':id' => $this->id]);
+    }
+
+    protected function insert(): bool
+    {
+        $data = get_object_vars($this);
+        $vars = array_keys($data);
+
+        $sql = sprintf(/** @lang text */
+            'INSERT INTO %s (%s) VALUES (%s)',
+            static::$table,
+            implode(',', $vars),
+            ':' . implode(',:', $vars)
+        );
+
+        $db = new Db();
+        if (true === $result = $db->execute($sql, $data)) {
+            $this->id = $db->lastInsertId();
+        }
+
+        return $result;
+    }
+
+    protected function update(): bool
+    {
+        $data = get_object_vars($this);
+        $vars = [];
+
+        foreach ($data as $key => $value) {
+            if ('id' !== $key) {
+                $vars[] = $key . '=:' . $key;
+            }
+        }
+
+        $sql = sprintf(/** @lang text */
+            'UPDATE %s SET %s WHERE id=:id',
+            static::$table,
+            implode(',', $vars)
+        );
+
+        return (new Db())->execute($sql, $data);
     }
 }

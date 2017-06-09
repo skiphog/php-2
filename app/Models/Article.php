@@ -1,11 +1,11 @@
 <?php
-require __DIR__ . '/Model.php';
+
+namespace App\Models;
 
 class Article extends Model
 {
-    protected static $table = 'News';
+    protected static $table = 'news';
 
-    public $id;
     public $title;
     public $text;
     public $author;

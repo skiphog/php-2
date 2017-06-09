@@ -1,5 +1,7 @@
 <?php
-require __DIR__ . '/../app/Models/Article.php';
+use App\Models\Article;
+
+require __DIR__ . '/../autoload.php';
 
 if (empty($_GET['id'])) {
     http_response_code(404);

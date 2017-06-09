@@ -1,12 +1,20 @@
 <?php
 
+namespace App;
+
 class Db
 {
     protected $dbh;
 
     public function __construct()
     {
-        $this->dbh = new \PDO('mysql:dbname=php-2;host=localhost', 'root', '');
+        $config = Config::getInstance()->data['db'];
+        $this->dbh = new \PDO(
+            'mysql:dbname=' . $config['dbname'] . ';host=' . $config['host'],
+            $config['username'],
+            $config['password'],
+            $config['options']
+        );
     }
 
     public function execute(string $sql, array $params = []): bool
@@ -19,5 +27,10 @@ class Db
         $sth = $this->dbh->prepare($sql);
         $sth->execute($params);
         return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+    }
+
+    public function lastInsertId(): int
+    {
+        return $this->dbh->lastInsertId();
     }
 }

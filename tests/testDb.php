@@ -1,6 +1,8 @@
 <?php
 
-require __DIR__ . '/../app/Db.php';
+use App\Db;
+
+require __DIR__ . '/../autoload.php';
 
 $db = new Db();
 
@@ -14,4 +16,3 @@ $result = $db->query($sql, StdClass::class);
 
 assert(is_array($result));
 assert(array_shift($result) instanceof StdClass);
-
