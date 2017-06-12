@@ -22,7 +22,7 @@ class Db
         return $this->dbh->prepare($sql)->execute($params);
     }
 
-    /**
+    /** @noinspection ReturnTypeCanBeDeclaredInspection
      * @param string $sql
      * @param string $class
      * @param array $params

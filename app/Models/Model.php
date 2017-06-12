@@ -10,14 +10,21 @@ abstract class Model
 
     public $id;
 
-    public static function findAll(): array
+    /** @noinspection ReturnTypeCanBeDeclaredInspection
+     * @return array
+     */
+    public static function findAll()
     {
         $sql = 'SELECT * FROM ' . static::$table;
 
         return (new Db())->query($sql, static::class);
     }
 
-    public static function findAllLatest(int $limit): array
+    /** @noinspection ReturnTypeCanBeDeclaredInspection
+     * @param int $limit
+     * @return array
+     */
+    public static function findAllLatest(int $limit)
     {
         $sql = 'SELECT * FROM ' . static::$table . ' ORDER BY id DESC LIMIT ' . $limit;
 
