@@ -22,7 +22,13 @@ class Db
         return $this->dbh->prepare($sql)->execute($params);
     }
 
-    public function query(string $sql, string $class, array $params = []): array
+    /**
+     * @param string $sql
+     * @param string $class
+     * @param array $params
+     * @return array
+     */
+    public function query(string $sql, string $class, array $params = [])
     {
         $sth = $this->dbh->prepare($sql);
         $sth->execute($params);

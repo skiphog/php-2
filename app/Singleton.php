@@ -14,7 +14,10 @@ trait Singleton
     {
     }
 
-    public static function getInstance(): self
+    /**
+     * @return static
+     */
+    public static function getInstance()
     {
         if (!self::$instance instanceof self) {
             self::$instance = new self;

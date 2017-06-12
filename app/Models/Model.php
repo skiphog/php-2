@@ -53,12 +53,9 @@ abstract class Model
         $data = get_object_vars($this);
         $vars = array_keys($data);
 
-        $sql = sprintf(/** @lang text */
-            'INSERT INTO %s (%s) VALUES (%s)',
-            static::$table,
-            implode(',', $vars),
-            ':' . implode(',:', $vars)
-        );
+        $sql = 'INSERT INTO ' . static::$table . ' (' . implode(',', $vars) . ') 
+            VALUES 
+        (' . ':' . implode(',:', $vars) . ')';
 
         $db = new Db();
         if (true === $result = $db->execute($sql, $data)) {
@@ -79,11 +76,7 @@ abstract class Model
             }
         }
 
-        $sql = sprintf(/** @lang text */
-            'UPDATE %s SET %s WHERE id=:id',
-            static::$table,
-            implode(',', $vars)
-        );
+        $sql = 'UPDATE ' . static::$table . ' SET ' . implode(',', $vars) . ' WHERE id=:id';
 
         return (new Db())->execute($sql, $data);
     }
