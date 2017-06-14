@@ -7,5 +7,5 @@ require __DIR__ . '/testDb.php';
 require __DIR__ . '/testModel.php';
 /** Test Config */
 require __DIR__ . '/testConfig.php';
-/** Test Config */
+/** Test View */
 require __DIR__ . '/testView.php';
