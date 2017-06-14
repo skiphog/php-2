@@ -3,6 +3,6 @@
     <h1><?php echo $article->title; ?></h1>
     <p><?php echo $article->text; ?></p>
     <p>
-        <?php echo null !== $article->author ? $article->author->name : 'Нет автора'; ?>
+        <?php echo !empty($article->author) ? $article->author->name : 'Нет автора'; ?>
     </p>
 </article>

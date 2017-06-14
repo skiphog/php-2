@@ -6,7 +6,7 @@
     <textarea name="text" id="" cols="30" rows="10" placeholder="text"><?php echo $article->text; ?></textarea>
     <br>
     <input type="text" name="author" placeholder="author"
-            value="<?php echo null !== $article->author ? $article->author->name : 'Нет автора'; ?>"
+            value="<?php echo !empty($article->author) ? $article->author->name : 'Нет автора'; ?>"
             disabled>
     <br>
     <input type="submit" value="Сохранить">

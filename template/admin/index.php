@@ -11,7 +11,7 @@
             <li>
                 <p><?php echo $article->title; ?></p>
                 <p><?php echo $article->text; ?></p>
-                <p><?php echo null !== $article->author ? $article->author->name : 'Нет автора'; ?></p>
+                <p><?php echo !empty($article->author) ? $article->author->name : 'Нет автора'; ?></p>
                 <a href="/admin/edit.php?edit=<?php echo $article->id; ?>">Редактировать</a>
                 <a href="/admin/handlers/del.php?del=<?php echo $article->id; ?>">Удалить</a>
             </li>
