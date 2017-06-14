@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Traits\Singleton;
+
 /**
  * @method static Config getInstance()
  */

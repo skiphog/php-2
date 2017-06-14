@@ -1,4 +1,9 @@
-<?php /**  @var $articles \App\Models\Article[] */ ?>
+<?php
+/**
+ * @var $articles \App\Models\Article[]
+ * @var $authors  \App\Models\Author[]
+ */
+?>
 <h1>Управление новостями</h1>
 <?php if (!empty($articles)) : ?>
     <ul>
@@ -6,6 +11,7 @@
             <li>
                 <p><?php echo $article->title; ?></p>
                 <p><?php echo $article->text; ?></p>
+                <p><?php echo null !== $article->author ? $article->author->name : 'Нет автора'; ?></p>
                 <a href="/admin/edit.php?edit=<?php echo $article->id; ?>">Редактировать</a>
                 <a href="/admin/handlers/del.php?del=<?php echo $article->id; ?>">Удалить</a>
             </li>
@@ -19,7 +25,15 @@
     <br>
     <textarea name="text" id="" cols="30" rows="10" placeholder="text"></textarea>
     <br>
-    <input type="text" name="author" placeholder="author">
+    <?php if (!empty($authors)) : ?>
+        <label>
+            <select name="author_id">
+                <?php foreach ($authors as $author) : ?>
+                    <option value="<?php echo $author->id; ?>"><?php echo $author->name; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
+    <?php endif; ?>
     <br>
     <input type="submit" value="Добавить">
 </form>

@@ -3,14 +3,14 @@ require __DIR__ . '/../../../autoload.php';
 
 use App\Models\Article;
 
-if (isset($_POST['title'], $_POST['text'], $_POST['author'])) {
+if (isset($_POST['title'], $_POST['text'])) {
     $article = new Article();
 
     $article->title = $_POST['title'];
     $article->text = $_POST['text'];
-    $article->author = $_POST['author'];
+    $article->author_id = $_POST['author_id'] ?? null;
 
-    if (false === $article->save()) {
+    if (!$article->save()) {
         http_response_code(500);
         die;
     }

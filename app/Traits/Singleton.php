@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Traits;
 
 trait Singleton
 {
@@ -11,6 +11,12 @@ trait Singleton
     }
 
     private function __clone()
+    {
+    }
+
+    /** @noinspection PhpUnusedPrivateMethodInspection */
+    /** @noinspection MagicMethodsValidityInspection */
+    private function __wakeup()
     {
     }
 

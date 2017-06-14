@@ -4,14 +4,28 @@ namespace App\Models;
 
 use App\Db;
 
+/**
+ * Class Model
+ * @package App\Models
+ * @property int $id
+ */
 abstract class Model
 {
+    /**
+     * Таблица БД
+     * @var string $table
+     */
     protected static $table;
 
-    public $id;
+    /**
+     * Атрибуты
+     * @var array $attributes
+     */
+    protected $attributes = [];
 
-    /** @noinspection ReturnTypeCanBeDeclaredInspection
-     * @return array
+    /**
+     * Получает все записи
+     * @return mixed
      */
     public static function findAll()
     {
@@ -20,9 +34,10 @@ abstract class Model
         return (new Db())->query($sql, static::class);
     }
 
-    /** @noinspection ReturnTypeCanBeDeclaredInspection
+    /**
+     * Получает записи отсортированные по id
      * @param int $limit
-     * @return array
+     * @return mixed
      */
     public static function findAllLatest(int $limit)
     {
@@ -31,6 +46,11 @@ abstract class Model
         return (new Db())->query($sql, static::class);
     }
 
+    /**
+     * Получает одну запись по id
+     * @param int $id
+     * @return mixed
+     */
     public static function findById(int $id)
     {
         $sql = 'SELECT * FROM ' . static::$table . ' WHERE id = :id LIMIT 1';
@@ -39,52 +59,112 @@ abstract class Model
         return empty($result) ? false : array_shift($result);
     }
 
+    /**
+     * Сохраняет запись
+     * @return bool
+     */
     public function save(): bool
     {
-        if (empty($this->id)) {
+        if (empty($this->attributes['id'])) {
             return $this->insert();
         }
 
         return $this->update();
     }
 
+    /**
+     * Удаляет запись
+     * @return bool
+     */
     public function delete(): bool
     {
         $sql = 'DELETE FROM ' . static::$table . ' WHERE id=:id';
 
-        return (new Db())->execute($sql, [':id' => $this->id]);
+        return (new Db())->execute($sql, [':id' => $this->attributes['id']]);
     }
 
+    /**
+     * Добавляет запись
+     * @return bool
+     */
     protected function insert(): bool
     {
-        $data = get_object_vars($this);
-        $vars = array_keys($data);
+        $vars = array_keys($this->attributes);
 
         $sql = 'INSERT INTO ' . static::$table . ' (' . implode(',', $vars) . ') 
             VALUES 
         (' . ':' . implode(',:', $vars) . ')';
 
         $db = new Db();
-        if (true === $result = $db->execute($sql, $data)) {
-            $this->id = $db->lastInsertId();
+        if (true === $result = $db->execute($sql, $this->attributes)) {
+            $this->attributes['id'] = $db->lastInsertId();
         }
 
         return $result;
     }
 
+    /**
+     * Обновляет запись
+     * @return bool
+     */
     protected function update(): bool
     {
-        $data = get_object_vars($this);
-        $vars = [];
+        $vars = $this->attributes;
+        unset($vars['id']);
 
-        foreach ($data as $key => $value) {
-            if ('id' !== $key) {
-                $vars[] = $key . '=:' . $key;
-            }
-        }
+        array_walk($vars, function (&$v, $k) {
+            $v = $k . '=:' . $k;
+        });
 
         $sql = 'UPDATE ' . static::$table . ' SET ' . implode(',', $vars) . ' WHERE id=:id';
 
-        return (new Db())->execute($sql, $data);
+        return (new Db())->execute($sql, $this->attributes);
+    }
+
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        if (array_key_exists($key, $this->attributes)) {
+            return $this->attributes[$key];
+        }
+
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    protected function getAttribute($key)
+    {
+        $method = 'get' . ucfirst($key);
+
+        if (method_exists($this, $method)) {
+            return $this->attributes[$key] = $this->$method();
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function __set($key, $value)
+    {
+        $this->attributes[$key] = $value;
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    public function __isset($key)
+    {
+        return null !== $this->{$key};
     }
 }

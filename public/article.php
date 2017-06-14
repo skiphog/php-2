@@ -1,4 +1,5 @@
 <?php
+use App\View;
 use App\Models\Article;
 
 require __DIR__ . '/../autoload.php';
@@ -15,4 +16,7 @@ if (empty($article)) {
     die();
 }
 
-include __DIR__ . '/../template/article.php';
+$view = new View();
+/** @noinspection PhpUndefinedFieldInspection */
+$view->article = $article;
+$view->display(__DIR__ . '/../template/article.php');

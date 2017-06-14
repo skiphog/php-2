@@ -4,6 +4,9 @@ namespace App;
 
 class Db
 {
+    /**
+     * @var \PDO $dbh
+     */
     protected $dbh;
 
     public function __construct()
@@ -17,16 +20,21 @@ class Db
         );
     }
 
+    /**
+     * @param string $sql
+     * @param array  $params
+     * @return bool
+     */
     public function execute(string $sql, array $params = []): bool
     {
         return $this->dbh->prepare($sql)->execute($params);
     }
 
-    /** @noinspection ReturnTypeCanBeDeclaredInspection
+    /**
      * @param string $sql
      * @param string $class
-     * @param array $params
-     * @return array
+     * @param array  $params
+     * @return mixed
      */
     public function query(string $sql, string $class, array $params = [])
     {
@@ -35,6 +43,9 @@ class Db
         return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
     }
 
+    /**
+     * @return int
+     */
     public function lastInsertId(): int
     {
         return $this->dbh->lastInsertId();

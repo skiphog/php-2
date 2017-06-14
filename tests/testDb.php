@@ -2,8 +2,6 @@
 
 use App\Db;
 
-require __DIR__ . '/../autoload.php';
-
 $db = new Db();
 
 /** --- testExecute() ---*/
