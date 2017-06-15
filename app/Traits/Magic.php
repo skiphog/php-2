@@ -5,10 +5,11 @@ namespace App\Traits;
 /**
  * Trait Magic
  * @package App\Traits
- * @property array $data
  */
 trait Magic
 {
+    protected $data = [];
+
     public function __set($key, $value)
     {
         $this->data[$key] = $value;

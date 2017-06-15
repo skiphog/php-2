@@ -6,10 +6,10 @@ namespace App\Traits;
  * Попробовал использовать
  * Trait IteratorAggregate
  * @package App\Traits
- * @property array data
  */
 trait IteratorAggregate
 {
+    protected $data = [];
     /**
      * @return \ArrayIterator
      */

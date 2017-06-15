@@ -14,8 +14,6 @@ class View implements \Iterator, \Countable
     use Magic;
     use Iterator;
 
-    protected $data = [];
-
     public function render(string $template): string
     {
         ob_start();

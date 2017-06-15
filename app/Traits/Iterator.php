@@ -5,10 +5,11 @@ namespace App\Traits;
 /**
  * Trait Iterator
  * @package App\Traits
- * @property array $data
  */
 trait Iterator
 {
+    protected $data = [];
+
     public function rewind()
     {
         return reset($this->data);

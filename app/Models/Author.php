@@ -3,8 +3,8 @@
 namespace App\Models;
 
 /**
- * @property $id   int
- * @property $name string
+ * @property  int    $id
+ * @property  string $name
  */
 class Author extends Model
 {
