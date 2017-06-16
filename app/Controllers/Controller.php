@@ -35,9 +35,9 @@ abstract class Controller
         }
     }
 
-    private function checkAccess()
+    private function checkAccess(): void
     {
-        if (!$this->assess()) {
+        if (false === $this->assess()) {
             http_response_code(403);
             die('Доступ запрещен');
         }
