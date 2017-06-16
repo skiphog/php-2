@@ -38,10 +38,7 @@ class News extends Controller
     public function actionAdd()
     {
         $article = new Article();
-
-        $article->title = $_POST['title'];
-        $article->text = $_POST['text'];
-        $article->author_id = $_POST['author_id'] ?? null;
+        $article->fill($_POST);
 
         if (!$article->save()) {
             http_response_code(500);
@@ -63,8 +60,7 @@ class News extends Controller
             die;
         }
 
-        $article->title = $_POST['title'];
-        $article->text = $_POST['text'];
+        $article->fill($_POST);
 
         if (false === $article->save()) {
             http_response_code(500);

@@ -24,6 +24,12 @@ abstract class Model
     protected $attributes = [];
 
     /**
+     * Допустимые значения для заполнения
+     * @var array
+     */
+    protected $fillable = [];
+
+    /**
      * Получает все записи
      * @return mixed
      */
@@ -57,6 +63,19 @@ abstract class Model
         $result = (new Db())->query($sql, static::class, [':id' => $id]);
 
         return empty($result) ? false : array_shift($result);
+    }
+
+    /**
+     * Заполняет модель значениями
+     * @param array $data
+     */
+    public function fill(array $data): void
+    {
+        foreach ($data as $key => $value) {
+            if (in_array($key, $this->fillable, true)) {
+                $this->{$key} = $value;
+            }
+        }
     }
 
     /**

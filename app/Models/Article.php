@@ -13,6 +13,8 @@ class Article extends Model
 {
     protected static $table = 'news';
 
+    protected $fillable = ['title', 'text', 'author_id'];
+
     /**
      * Получает автора
      * @return mixed
