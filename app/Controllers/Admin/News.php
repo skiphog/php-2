@@ -13,8 +13,10 @@ class News extends Controller
      */
     public function actionAll()
     {
-        $this->view->authors = Author::findAll();
-        $this->view->articles = Article::findAll();
+        $this->view->assign([
+            'authors'  => Author::findAll(),
+            'articles' => Article::findAll()
+        ]);
         $this->view->display(__DIR__ . '/../../../template/admin/index.php');
     }
 

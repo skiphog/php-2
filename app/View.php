@@ -14,6 +14,17 @@ class View implements \Iterator, \Countable
     use Magic;
     use Iterator;
 
+    public function assign($data, $value = null)
+    {
+        $data = is_array($data) ? $data : [$data => $value];
+
+        foreach ($data as $key => $item) {
+            $this->{$key} = $item;
+        }
+
+        return $this;
+    }
+
     public function render(string $template): string
     {
         ob_start();
