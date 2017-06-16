@@ -10,13 +10,13 @@ array_walk($parts, function (&$value) {
 });
 
 /** Считаю, что если элементов в массиве больше одного, то последний всегда - action. Иначе - default */
-$action = 'action' . (!empty($parts[1]) ? array_pop($parts) : 'Index');
+$action = !empty($parts[1]) ? array_pop($parts) : 'Index';
 
 /** Если в массиве что-то есть, то составляю контроллер. Иначе - default  */
 $controller = 'App\\Controllers\\' . (!empty($parts[0]) ? implode('\\', $parts) : 'News');
 
-/** Проверяю на существование как Контроллера, так и Действия */
-if (!method_exists($controller, $action)) {
+/** Проверяю на существование клсса Контроллера */
+if (!class_exists($controller)) {
     http_response_code(404);
     die;
 }
