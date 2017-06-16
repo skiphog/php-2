@@ -2,10 +2,10 @@
 
 namespace App\Controllers\Admin;
 
+use App\Request;
 use App\Models\Author;
 use App\Models\Article;
 use App\Controllers\Controller;
-use App\Request;
 
 class News extends Controller
 {

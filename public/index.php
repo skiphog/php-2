@@ -15,7 +15,7 @@ $action = !empty($parts[1]) ? array_pop($parts) : 'Index';
 /** Если в массиве что-то есть, то составляю контроллер. Иначе - default  */
 $controller = 'App\\Controllers\\' . (!empty($parts[0]) ? implode('\\', $parts) : 'News');
 
-/** Проверяю на существование клсса Контроллера */
+/** Проверяю на существование Контроллера */
 if (!class_exists($controller)) {
     http_response_code(404);
     die;
