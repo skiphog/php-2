@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Article;
+use App\Request;
 
 class News extends Controller
 {
@@ -14,7 +15,7 @@ class News extends Controller
 
     public function actionOne()
     {
-        $article = Article::findById($_GET['id'] ?? null);
+        $article = Article::findById(Request::get('id'));
         if (false === $article) {
             http_response_code(404);
             die;

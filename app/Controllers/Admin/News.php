@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Models\Author;
 use App\Models\Article;
 use App\Controllers\Controller;
+use App\Request;
 
 class News extends Controller
 {
@@ -25,7 +26,7 @@ class News extends Controller
      */
     public function actionEdit()
     {
-        $article = Article::findById($_GET['id'] ?? null);
+        $article = Article::findById(Request::get('id'));
         if (false === $article) {
             http_response_code(404);
             die;
@@ -40,7 +41,8 @@ class News extends Controller
     public function actionAdd()
     {
         $article = new Article();
-        $article->fill($_POST);
+
+        $article->fill(Request::post());
 
         if (!$article->save()) {
             http_response_code(500);
@@ -55,14 +57,14 @@ class News extends Controller
      */
     public function actionUpdate()
     {
-        $article = Article::findById((int)$_POST['id']);
+        $article = Article::findById(Request::post('id'));
 
         if (!$article) {
             http_response_code(500);
             die;
         }
 
-        $article->fill($_POST);
+        $article->fill(Request::post());
 
         if (false === $article->save()) {
             http_response_code(500);
@@ -77,7 +79,7 @@ class News extends Controller
      */
     public function actionDelete()
     {
-        $article = Article::findById($_GET['id'] ?? null);
+        $article = Article::findById(Request::get('id'));
 
         if (!$article) {
             http_response_code(500);
