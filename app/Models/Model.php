@@ -51,7 +51,7 @@ abstract class Model
      * @param int $id
      * @return mixed
      */
-    public static function findById(int $id)
+    public static function findById($id)
     {
         $sql = 'SELECT * FROM ' . static::$table . ' WHERE id = :id LIMIT 1';
         $result = (new Db())->query($sql, static::class, [':id' => $id]);

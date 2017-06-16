@@ -4,7 +4,7 @@
     <ul>
         <?php foreach ($articles as $article) : ?>
             <li>
-                <a href="/article.php?id=<?php echo $article->id; ?>"><?php echo $article->title; ?></a>
+                <a href="/news/one?id=<?php echo $article->id; ?>"><?php echo $article->title; ?></a>
                 <p>
                     <?php echo !empty($article->author) ? $article->author->name : 'Нет автора'; ?>
                 </p>
