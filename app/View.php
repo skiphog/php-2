@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\ArrayAccess;
 use App\Traits\Magic;
 use App\Traits\Iterator;
 
@@ -9,21 +10,11 @@ use App\Traits\Iterator;
  * Class View
  * @package App
  */
-class View implements \Iterator, \Countable
+class View implements \Iterator, \Countable, \ArrayAccess
 {
     use Magic;
     use Iterator;
-
-    public function assign($data, $value = null)
-    {
-        $data = is_array($data) ? $data : [$data => $value];
-
-        foreach ($data as $key => $item) {
-            $this->{$key} = $item;
-        }
-
-        return $this;
-    }
+    use ArrayAccess;
 
     public function render(string $template): string
     {
