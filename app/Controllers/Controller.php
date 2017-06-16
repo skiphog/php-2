@@ -16,6 +16,17 @@ abstract class Controller
     public function action(string $action): void
     {
         $method = 'action' . $action;
+        $this->check($method);
+        $this->$method();
+    }
+
+    protected function assess(): bool
+    {
+        return true;
+    }
+
+    private function check(string $method): void
+    {
         if (!method_exists($this, $method)) {
             http_response_code(500);
             die('Метод не найден');
@@ -25,12 +36,5 @@ abstract class Controller
             http_response_code(403);
             die('Доступ запрещен');
         }
-
-        $this->$method();
-    }
-
-    protected function assess(): bool
-    {
-        return true;
     }
 }
