@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Admin;
 
-use App\Request;
 use App\Models\Author;
 use App\Models\Article;
 use App\Controllers\Controller;
@@ -40,9 +39,7 @@ class News extends Controller
      */
     public function actionAdd()
     {
-        $article = new Article();
-
-        $article->fill($_POST);
+        $article = (new Article())->fill($_POST);
 
         if (!$article->save()) {
             http_response_code(500);
@@ -57,14 +54,15 @@ class News extends Controller
      */
     public function actionUpdate()
     {
-        $article = Article::findById(Request::post('id'));
+        /** @var Article $article */
+        $article = Article::findById($_POST['id'] ?? null);
 
         if (!$article) {
             http_response_code(500);
             die;
         }
 
-        $article->fill($_POST);
+        $article->fill($_POST)->save();
 
         if (false === $article->save()) {
             http_response_code(500);
