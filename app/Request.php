@@ -22,7 +22,6 @@ class Request
 
     public static function getParams(array $data, $params)
     {
-
         if (empty($params)) {
             return $data;
         }

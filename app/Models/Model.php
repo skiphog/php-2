@@ -68,14 +68,17 @@ abstract class Model
     /**
      * Заполняет модель значениями
      * @param array $data
+     * @return $this
      */
-    public function fill(array $data): void
+    public function fill(array $data)
     {
         foreach ($data as $key => $value) {
             if (in_array($key, $this->fillable, true)) {
                 $this->{$key} = $value;
             }
         }
+
+        return $this;
     }
 
     /**

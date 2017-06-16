@@ -1,10 +1,10 @@
 <?php
 require __DIR__ . '/../autoload.php';
 
-$uri = \App\Request::uri();
+$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $parts = explode('/', $uri);
 
-/** Приводим все значения к верхнему регистру */
+/** Привожу все значения к верхнему регистру */
 array_walk($parts, function (&$value) {
     $value = ucfirst($value);
 });

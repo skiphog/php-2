@@ -26,7 +26,7 @@ class News extends Controller
      */
     public function actionEdit()
     {
-        $article = Article::findById(Request::get('id'));
+        $article = Article::findById($_GET['id']);
         if (false === $article) {
             http_response_code(404);
             die;
@@ -42,7 +42,7 @@ class News extends Controller
     {
         $article = new Article();
 
-        $article->fill(Request::post());
+        $article->fill($_POST);
 
         if (!$article->save()) {
             http_response_code(500);
@@ -64,7 +64,7 @@ class News extends Controller
             die;
         }
 
-        $article->fill(Request::post());
+        $article->fill($_POST);
 
         if (false === $article->save()) {
             http_response_code(500);
@@ -79,7 +79,7 @@ class News extends Controller
      */
     public function actionDelete()
     {
-        $article = Article::findById(Request::get('id'));
+        $article = Article::findById($_GET['id']);
 
         if (!$article) {
             http_response_code(500);
