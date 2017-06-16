@@ -25,7 +25,7 @@ class News extends Controller
      */
     public function actionEdit()
     {
-        $article = Article::findById($_GET['id']);
+        $article = Article::findById($_GET['id'] ?? null);
         if (false === $article) {
             http_response_code(404);
             die;
@@ -77,7 +77,7 @@ class News extends Controller
      */
     public function actionDelete()
     {
-        $article = Article::findById($_GET['id']);
+        $article = Article::findById($_GET['id'] ?? null);
 
         if (!$article) {
             http_response_code(500);
