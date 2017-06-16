@@ -62,7 +62,7 @@ class News extends Controller
             die;
         }
 
-        $article->fill($_POST)->save();
+        $article->fill($_POST);
 
         if (false === $article->save()) {
             http_response_code(500);
