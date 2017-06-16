@@ -39,7 +39,7 @@ abstract class Controller
     {
         if (false === $this->assess()) {
             http_response_code(403);
-            die('Доступ запрещен');
+            die('Доступ закрыт');
         }
     }
 }
