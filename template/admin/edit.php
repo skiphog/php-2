@@ -1,5 +1,5 @@
 <?php /** @var $article \App\Models\Article */ ?>
-<form action="/admin/handlers/edit.php" method="post">
+<form action="/admin/news/update" method="post">
     <input type="hidden" name="id" value="<?php echo $article->id; ?>">
     <input type="text" name="title" placeholder="title" value="<?php echo $article->title; ?>">
     <br>

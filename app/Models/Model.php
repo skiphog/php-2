@@ -24,6 +24,12 @@ abstract class Model
     protected $attributes = [];
 
     /**
+     * Допустимые значения для заполнения
+     * @var array
+     */
+    protected $fillable = [];
+
+    /**
      * Получает все записи
      * @return mixed
      */
@@ -51,12 +57,28 @@ abstract class Model
      * @param int $id
      * @return mixed
      */
-    public static function findById(int $id)
+    public static function findById($id)
     {
         $sql = 'SELECT * FROM ' . static::$table . ' WHERE id = :id LIMIT 1';
         $result = (new Db())->query($sql, static::class, [':id' => $id]);
 
         return empty($result) ? false : array_shift($result);
+    }
+
+    /**
+     * Заполняет модель значениями
+     * @param array $data
+     * @return $this
+     */
+    public function fill(array $data)
+    {
+        foreach ($data as $key => $value) {
+            if (in_array($key, $this->fillable, true)) {
+                $this->{$key} = $value;
+            }
+        }
+
+        return $this;
     }
 
     /**

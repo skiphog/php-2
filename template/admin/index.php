@@ -12,15 +12,15 @@
                 <p><?php echo $article->title; ?></p>
                 <p><?php echo $article->text; ?></p>
                 <p><?php echo !empty($article->author) ? $article->author->name : 'Нет автора'; ?></p>
-                <a href="/admin/edit.php?edit=<?php echo $article->id; ?>">Редактировать</a>
-                <a href="/admin/handlers/del.php?del=<?php echo $article->id; ?>">Удалить</a>
+                <a href="/admin/news/edit?id=<?php echo $article->id; ?>">Редактировать</a>
+                <a href="/admin/news/delete?id=<?php echo $article->id; ?>">Удалить</a>
             </li>
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
 
 <!-- Форма добавления новости -->
-<form action="/admin/handlers/add.php" method="post">
+<form action="/admin/news/add" method="post">
     <input type="text" name="title" placeholder="title">
     <br>
     <textarea name="text" id="" cols="30" rows="10" placeholder="text"></textarea>
