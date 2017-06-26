@@ -27,6 +27,6 @@ class Request
             return $data[array_shift($params)] ?? null;
         }
 
-        return array_intersect_key($data, array_flip((array)$params));
+        return array_intersect_key($data, array_flip($params));
     }
 }
