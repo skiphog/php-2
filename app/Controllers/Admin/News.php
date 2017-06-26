@@ -72,8 +72,8 @@ class News extends Controller
             $article->fill($this->request->post())->save();
             header('Location: /admin/news/all');
         } catch (MultiException $e) {
-            $this->view->article = $article;
             $this->view->errors = $e;
+            $this->view->article = $article;
             $this->view->display(__DIR__ . '/../../../template/admin/edit.php');
         }
     }
