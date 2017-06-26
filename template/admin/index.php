@@ -20,7 +20,7 @@
 <?php endif; ?>
 
 <!-- Форма добавления новости -->
-<form action="/admin/news/add" method="post">
+<form action="/admin/news/save" method="post">
     <input type="text" name="title" placeholder="title">
     <br>
     <textarea name="text" id="" cols="30" rows="10" placeholder="text"></textarea>
