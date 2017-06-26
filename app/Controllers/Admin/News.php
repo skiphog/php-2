@@ -40,22 +40,12 @@ class News extends Controller
     }
 
     /**
-     * Добавить новость
-     * @throws \App\Exceptions\MultiException
-     * @throws \App\Exceptions\DataBaseException
-     */
-    public function actionAdd()
-    {
-        //$this->save(new Article());
-    }
-
-    /**
      * Обновить новость
      * @throws \App\Exceptions\DataBaseException
      * @throws \App\Exceptions\MultiException
      * @throws \App\Exceptions\ForbiddenException
      */
-    public function actionUpdate()
+    public function actionSave()
     {
         /** @var Article $article */
         if (!$article = Article::findById($this->request->post('id'))) {
