@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Db;
+use App\Exceptions\MultiException;
 
 /**
  * Class Model
@@ -32,6 +33,7 @@ abstract class Model
     /**
      * Получает все записи
      * @return mixed
+     * @throws \App\Exceptions\DataBaseException
      */
     public static function findAll()
     {
@@ -44,6 +46,7 @@ abstract class Model
      * Получает записи отсортированные по id
      * @param int $limit
      * @return mixed
+     * @throws \App\Exceptions\DataBaseException
      */
     public static function findAllLatest(int $limit)
     {
@@ -56,6 +59,7 @@ abstract class Model
      * Получает одну запись по id
      * @param int $id
      * @return mixed
+     * @throws \App\Exceptions\DataBaseException
      */
     public static function findById($id)
     {
@@ -69,13 +73,26 @@ abstract class Model
      * Заполняет модель значениями
      * @param array $data
      * @return $this
+     * @throws \App\Exceptions\MultiException
      */
     public function fill(array $data)
     {
+        $errors = new MultiException();
+
         foreach ($data as $key => $value) {
-            if (in_array($key, $this->fillable, true)) {
-                $this->{$key} = $value;
+            if (!in_array($key, $this->fillable, true)) {
+                continue;
             }
+
+            try {
+                $this->{$key} = $this->fillAttribute($key, $value);
+            } catch (\Exception $e) {
+                $errors->add($e);
+            }
+        }
+
+        if (!$errors->isEmpty()) {
+            throw  $errors;
         }
 
         return $this;
@@ -84,6 +101,7 @@ abstract class Model
     /**
      * Сохраняет запись
      * @return bool
+     * @throws \App\Exceptions\DataBaseException
      */
     public function save(): bool
     {
@@ -97,6 +115,7 @@ abstract class Model
     /**
      * Удаляет запись
      * @return bool
+     * @throws \App\Exceptions\DataBaseException
      */
     public function delete(): bool
     {
@@ -108,6 +127,7 @@ abstract class Model
     /**
      * Добавляет запись
      * @return bool
+     * @throws \App\Exceptions\DataBaseException
      */
     protected function insert(): bool
     {
@@ -128,6 +148,7 @@ abstract class Model
     /**
      * Обновляет запись
      * @return bool
+     * @throws \App\Exceptions\DataBaseException
      */
     protected function update(): bool
     {
@@ -159,21 +180,6 @@ abstract class Model
 
     /**
      * @param $key
-     * @return mixed
-     */
-    protected function getAttribute($key)
-    {
-        $method = 'get' . ucfirst($key);
-
-        if (method_exists($this, $method)) {
-            return $this->attributes[$key] = $this->$method();
-        }
-
-        return null;
-    }
-
-    /**
-     * @param $key
      * @param $value
      */
     public function __set($key, $value)
@@ -188,5 +194,37 @@ abstract class Model
     public function __isset($key)
     {
         return null !== $this->{$key};
+    }
+
+    /**
+     * Запускает валидацию, если указан соответствующий метод
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    protected function fillAttribute($key, $value)
+    {
+        $data = array_map(function ($v) {
+            return ucfirst($v);
+        }, explode('_', $key));
+
+        $method = 'validate' . implode('', $data);
+
+        return method_exists($this, $method) ? $this->$method($value) : $value;
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    protected function getAttribute($key)
+    {
+        $method = 'get' . ucfirst($key);
+
+        if (method_exists($this, $method)) {
+            return $this->attributes[$key] = $this->$method();
+        }
+
+        return null;
     }
 }

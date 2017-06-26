@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\View;
+use App\Exceptions\ForbiddenException;
 
 abstract class Controller
 {
@@ -16,13 +17,13 @@ abstract class Controller
         $this->view = new View();
     }
 
-    public function action(string $action): void
+    public function action(string $action, ...$params): void
     {
         $method = 'action' . $action;
         $this->checkMethod($method);
         $this->checkAccess();
 
-        $this->$method();
+        $this->$method(...$params);
     }
 
     protected function assess(): bool
@@ -33,16 +34,14 @@ abstract class Controller
     private function checkMethod(string $method): void
     {
         if (!method_exists($this, $method)) {
-            http_response_code(500);
-            die('Метод не найден');
+            throw new \BadMethodCallException('Метод ' . $method . ' в контроллере ' . static::class . ' не найден');
         }
     }
 
     private function checkAccess(): void
     {
-        if (false === $this->assess()) {
-            http_response_code(403);
-            die('Доступ закрыт');
+        if (!$this->assess()) {
+            throw new ForbiddenException('Доступ запрещен');
         }
     }
 }

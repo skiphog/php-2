@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Exceptions\DataBaseException;
+
 class Db
 {
     /**
@@ -11,23 +13,32 @@ class Db
 
     public function __construct()
     {
-        $config = Config::getInstance()->data['db'];
-        $this->dbh = new \PDO(
-            'mysql:dbname=' . $config['dbname'] . ';host=' . $config['host'],
-            $config['username'],
-            $config['password'],
-            $config['options']
-        );
+        try {
+            $config = Config::getInstance()->data['db'];
+            $this->dbh = new \PDO(
+                'mysql:dbname=' . $config['dbname'] . ';host=' . $config['host'],
+                $config['username'],
+                $config['password'],
+                $config['options']
+            );
+        } catch (\Exception $e) {
+            throw new DataBaseException('Нет соединения с БД', $e->getCode(), $e);
+        }
     }
 
     /**
      * @param string $sql
      * @param array  $params
      * @return bool
+     * @throws \App\Exceptions\DataBaseException
      */
     public function execute(string $sql, array $params = []): bool
     {
-        return $this->dbh->prepare($sql)->execute($params);
+        try {
+            return $this->dbh->prepare($sql)->execute($params);
+        } catch (\Exception $e) {
+            throw new DataBaseException('Ошибка в запросе', $e->getCode(), $e);
+        }
     }
 
     /**
@@ -35,12 +46,17 @@ class Db
      * @param string $class
      * @param array  $params
      * @return mixed
+     * @throws \App\Exceptions\DataBaseException
      */
     public function query(string $sql, string $class, array $params = [])
     {
-        $sth = $this->dbh->prepare($sql);
-        $sth->execute($params);
-        return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+        try {
+            $sth = $this->dbh->prepare($sql);
+            $sth->execute($params);
+            return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+        } catch (\Exception $e) {
+            throw new DataBaseException('Ошибка в запросе', $e->getCode(), $e);
+        }
     }
 
     /**

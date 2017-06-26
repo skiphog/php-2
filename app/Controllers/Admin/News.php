@@ -5,11 +5,15 @@ namespace App\Controllers\Admin;
 use App\Models\Author;
 use App\Models\Article;
 use App\Controllers\Controller;
+use App\Exceptions\MultiException;
+use App\Exceptions\NotFoundException;
+use App\Exceptions\ForbiddenException;
 
 class News extends Controller
 {
     /**
      * Все новости
+     * @throws \App\Exceptions\DataBaseException
      */
     public function actionAll()
     {
@@ -22,68 +26,66 @@ class News extends Controller
 
     /**
      * Редактировать одну новость
+     * @throws \App\Exceptions\DataBaseException
+     * @throws \App\Exceptions\NotFoundException
      */
     public function actionEdit()
     {
-        $article = Article::findById($_GET['id'] ?? null);
-        if (false === $article) {
-            http_response_code(404);
-            die;
+        if (!$article = Article::findById($_GET['id'] ?? null)) {
+            throw new NotFoundException('Новость для редактирования не найдена');
         }
+
         $this->view->article = $article;
         $this->view->display(__DIR__ . '/../../../template/admin/edit.php');
     }
 
     /**
      * Добавить новость
+     * @throws \App\Exceptions\MultiException
+     * @throws \App\Exceptions\DataBaseException
      */
     public function actionAdd()
     {
-        $article = (new Article())->fill($_POST);
-
-        if (!$article->save()) {
-            http_response_code(500);
-            die;
+        try {
+            (new Article())->fill($_POST)->save();
+            header('Location: /admin/news/all');
+        } catch (MultiException $e) {
+            var_dump($e->getAllMessage());
         }
-
-        header('Location: /admin/news/all');
     }
 
     /**
      * Обновить новость
+     * @throws \App\Exceptions\DataBaseException
+     * @throws \App\Exceptions\MultiException
+     * @throws \App\Exceptions\ForbiddenException
      */
     public function actionUpdate()
     {
         /** @var Article $article */
-        $article = Article::findById($_POST['id'] ?? null);
-
-        if (!$article) {
-            http_response_code(500);
-            die;
+        if (!$article = Article::findById($_POST['id'] ?? null)) {
+            throw new ForbiddenException('Новость для обновления не найдена');
         }
 
-        $article->fill($_POST);
-
-        if (false === $article->save()) {
-            http_response_code(500);
-            die;
+        try {
+            $article->fill($_POST)->save();
+            header('Location: /admin/news/all');
+        } catch (MultiException $e) {
+            var_dump($e->getAllMessage());
         }
-
-        header('Location: /admin/news/all');
     }
 
     /**
      * Удалить новость
+     * @throws \App\Exceptions\DataBaseException
+     * @throws \App\Exceptions\ForbiddenException
      */
     public function actionDelete()
     {
-        $article = Article::findById($_GET['id'] ?? null);
-
-        if (!$article) {
-            http_response_code(500);
-            die;
+        /** @var Article $article */
+        if (!$article = Article::findById($_GET['id'] ?? null)) {
+            throw new ForbiddenException('Новость для удаления не найдена');
         }
-
         $article->delete();
         header('Location: /admin/news/all');
     }
