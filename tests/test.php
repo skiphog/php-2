@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /** Test DB */
 require __DIR__ . '/testDb.php';

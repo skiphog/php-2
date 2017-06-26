@@ -1,0 +1,17 @@
+{
+  "name": "skiphog/php-2",
+  "description": "Homework",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Skiphog",
+      "email": "skiphog@mail.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  }
+}

@@ -6,7 +6,7 @@ use App\Exceptions\NotFoundException;
 use App\Exceptions\DataBaseException;
 use App\Exceptions\ForbiddenException;
 
-require __DIR__ . '/../autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $parts = explode('/', $uri);
