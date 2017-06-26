@@ -47,9 +47,12 @@ class News extends Controller
      */
     public function actionSave()
     {
+        $article_id = $this->request->post('id');
 
         /** @var Article $article */
-        if (!$article = Article::findById($this->request->post('id'))) {
+        $article = $article_id ? Article::findById($article_id) : new Article();
+
+        if (!$article) {
             throw new ForbiddenException('Новость для обновления не найдена');
         }
 
