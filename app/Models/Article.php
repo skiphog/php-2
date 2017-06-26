@@ -48,7 +48,7 @@ class Article extends Model
         $author_id = abs((int)$author_id);
 
         if (!Author::findById($author_id)) {
-            throw new \InvalidArgumentException('Неккоректный id автора');
+            throw new \InvalidArgumentException('Некорректный id автора');
         }
 
         return $author_id;
