@@ -40,7 +40,7 @@ class News extends Controller
     }
 
     /**
-     * Обновить новость
+     * Добавить/Обновить новость
      * @throws \App\Exceptions\DataBaseException
      * @throws \App\Exceptions\MultiException
      * @throws \App\Exceptions\ForbiddenException
