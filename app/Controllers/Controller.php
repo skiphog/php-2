@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Request;
 use App\View;
 use App\Exceptions\ForbiddenException;
 
@@ -12,9 +13,15 @@ abstract class Controller
      */
     protected $view;
 
+    /**
+     * @var Request $request
+     */
+    protected $request;
+
     public function __construct()
     {
         $this->view = new View();
+        $this->request = new Request();
     }
 
     public function action(string $action, ...$params): void

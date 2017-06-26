@@ -15,7 +15,7 @@ class News extends Controller
 
     public function actionOne()
     {
-        if (!$article = Article::findById($_GET['id'] ?? null)) {
+        if (!$article = Article::findById($this->request->get('id'))) {
             throw new NotFoundException('Новость не найдена');
         }
 

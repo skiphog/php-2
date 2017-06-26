@@ -31,7 +31,7 @@ class News extends Controller
      */
     public function actionEdit()
     {
-        if (!$article = Article::findById($_GET['id'] ?? null)) {
+        if (!$article = Article::findById($this->request->get('id'))) {
             throw new NotFoundException('Новость для редактирования не найдена');
         }
 
@@ -47,7 +47,7 @@ class News extends Controller
     public function actionAdd()
     {
         try {
-            (new Article())->fill($_POST)->save();
+            (new Article())->fill($this->request->post())->save();
             header('Location: /admin/news/all');
         } catch (MultiException $e) {
             var_dump($e->getAllMessage());
@@ -63,12 +63,12 @@ class News extends Controller
     public function actionUpdate()
     {
         /** @var Article $article */
-        if (!$article = Article::findById($_POST['id'] ?? null)) {
+        if (!$article = Article::findById($this->request->post('id'))) {
             throw new ForbiddenException('Новость для обновления не найдена');
         }
 
         try {
-            $article->fill($_POST)->save();
+            $article->fill($this->request->post())->save();
             header('Location: /admin/news/all');
         } catch (MultiException $e) {
             var_dump($e->getAllMessage());
@@ -83,7 +83,7 @@ class News extends Controller
     public function actionDelete()
     {
         /** @var Article $article */
-        if (!$article = Article::findById($_GET['id'] ?? null)) {
+        if (!$article = Article::findById($this->request->get('id'))) {
             throw new ForbiddenException('Новость для удаления не найдена');
         }
         $article->delete();
