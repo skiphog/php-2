@@ -1,4 +1,7 @@
 <?php /** @var $article \App\Models\Article */ ?>
+
+<?php var_dump($errors) ?>
+
 <form action="/admin/news/update" method="post">
     <input type="hidden" name="id" value="<?php echo $article->id; ?>">
     <input type="text" name="title" placeholder="title" value="<?php echo $article->title; ?>">
