@@ -46,13 +46,7 @@ class News extends Controller
      */
     public function actionAdd()
     {
-        try {
-            (new Article())->fill($this->request->post())->save();
-            header('Location: /admin/news/all');
-        } catch (MultiException $e) {
-            $this->view->errors = $e;
-            $this->view->display(__DIR__ . '/../../../template/admin/index.php');
-        }
+        $this->save(new Article());
     }
 
     /**
@@ -68,14 +62,7 @@ class News extends Controller
             throw new ForbiddenException('Новость для обновления не найдена');
         }
 
-        try {
-            $article->fill($this->request->post())->save();
-            header('Location: /admin/news/all');
-        } catch (MultiException $e) {
-            $this->view->errors = $e;
-            $this->view->article = $article;
-            $this->view->display(__DIR__ . '/../../../template/admin/edit.php');
-        }
+        $this->save($article);
     }
 
     /**
@@ -91,5 +78,17 @@ class News extends Controller
         }
         $article->delete();
         header('Location: /admin/news/all');
+    }
+
+    private function save(Article $article)
+    {
+        try {
+            $article->fill($this->request->post())->save();
+            header('Location: /admin/news/all');
+        } catch (MultiException $e) {
+            $this->view->errors = $e;
+            $this->view->article = $article;
+            $this->view->display(__DIR__ . '/../../../template/admin/edit.php');
+        }
     }
 }
