@@ -1,8 +1,19 @@
-<?php /** @var $article \App\Models\Article */ ?>
+<?php
+/**
+ * @var $article \App\Models\Article
+ * @var $errors  null|\App\Exceptions\MultiException
+ */
+?>
 
-<?php var_dump($errors) ?>
+<?php if (!empty($errors)) : ?>
+    <div>
+        <?php foreach ($errors->getAllMessage() as $error) : ?>
+            <p><?php echo $error; ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
 
-<form action="/admin/news/update" method="post">
+<form action="/admin/news/save" method="post">
     <input type="hidden" name="id" value="<?php echo $article->id; ?>">
     <input type="text" name="title" placeholder="title" value="<?php echo $article->title; ?>">
     <br>

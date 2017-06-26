@@ -47,6 +47,7 @@ class News extends Controller
      */
     public function actionSave()
     {
+
         /** @var Article $article */
         if (!$article = Article::findById($this->request->post('id'))) {
             throw new ForbiddenException('Новость для обновления не найдена');
@@ -56,8 +57,10 @@ class News extends Controller
             $article->fill($this->request->post())->save();
             header('Location: /admin/news/all');
         } catch (MultiException $e) {
-            $this->view->errors = $e;
-            $this->view->article = $article;
+            $this->view->assign([
+                'errors'  => $e,
+                'article' => $article
+            ]);
             $this->view->display(__DIR__ . '/../../../template/admin/edit.php');
         }
     }
