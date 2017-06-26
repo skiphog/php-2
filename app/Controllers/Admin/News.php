@@ -50,6 +50,7 @@ class News extends Controller
             (new Article())->fill($this->request->post())->save();
             header('Location: /admin/news/all');
         } catch (MultiException $e) {
+            // что-то сделать с этим исключением
             var_dump($e->getAllMessage());
         }
     }
@@ -71,6 +72,7 @@ class News extends Controller
             $article->fill($this->request->post())->save();
             header('Location: /admin/news/all');
         } catch (MultiException $e) {
+            // что-то сделать с этим исключением
             var_dump($e->getAllMessage());
         }
     }
