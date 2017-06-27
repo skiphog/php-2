@@ -21,6 +21,8 @@ class Twig implements ViewInterface
 
     private function getTemplate(string $template): string
     {
-        return pathinfo($template, PATHINFO_BASENAME);
+        $basename = pathinfo(Config::getInstance()->data['twig']['path'], PATHINFO_BASENAME);
+
+        return trim(substr($template, strpos($template, $basename) + mb_strlen($basename)), '/');
     }
 }
