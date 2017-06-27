@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<div class="container">
+    <h1 class="text-center">Все новости</h1>
+    {% if articles %}
+        <div class="list-group">
+            {% for article in articles %}
+                <a href="//php-2/news/one?id={{ article.id }}"
+                        class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ article.title }}</h5>
+                        <small>{{ article.author.name }}</small>
+                    </div>
+                    <p class="mb-1">{{ article.shortcut }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

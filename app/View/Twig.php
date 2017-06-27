@@ -16,13 +16,6 @@ class Twig implements ViewInterface
 
     public function render(array $data, string $template): string
     {
-        return $this->twig->render($this->getTemplate($template), $data);
-    }
-
-    private function getTemplate(string $template): string
-    {
-        $basename = pathinfo(Config::getInstance()->data['twig']['path'], PATHINFO_BASENAME);
-
-        return trim(substr($template, strpos($template, $basename) + mb_strlen($basename)), '/');
+        return $this->twig->render($template, $data);
     }
 }

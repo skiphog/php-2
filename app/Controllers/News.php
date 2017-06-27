@@ -22,7 +22,7 @@ class News extends Controller
     public function actionIndex()
     {
         $this->view->articles = Article::findAll();
-        $this->view->display(__DIR__ . '/../../template/news.php');
+        $this->view->display('news/news.twig');
     }
 
     /**
@@ -37,6 +37,6 @@ class News extends Controller
         }
 
         $this->view->article = $article;
-        $this->view->display(__DIR__ . '/../../template/article.php');
+        $this->view->display('news/article.twig');
     }
 }
