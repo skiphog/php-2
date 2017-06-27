@@ -7,6 +7,7 @@ namespace App\Models;
  * @property string $title
  * @property string $text
  * @property int    $author_id
+ * @property string $shortcut
  * @property Author $author
  */
 class Article extends Model
@@ -25,6 +26,21 @@ class Article extends Model
         return empty($this->author_id) ? null : Author::findById($this->author_id);
     }
 
+    /**
+     * Сокращенный текст новости
+     * @return string
+     */
+    public function getShortcut(): string
+    {
+        return subText($this->text, 100);
+    }
+
+    /**
+     * Валидация заголовка
+     * @param string $title
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     protected function validateTitle($title): string
     {
         if (empty($title)) {
@@ -34,6 +50,12 @@ class Article extends Model
         return $title;
     }
 
+    /**
+     * Валидация текста
+     * @param $text
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     protected function validateText($text): string
     {
         if (empty($text)) {
@@ -43,9 +65,18 @@ class Article extends Model
         return $text;
     }
 
-    protected function validateAuthorId($author_id): int
+    /**
+     * Валидация id автора
+     * @param $author_id
+     * @return mixed
+     * @throws \App\Exceptions\DataBaseException
+     * @throws \InvalidArgumentException
+     */
+    protected function validateAuthorId($author_id)
     {
-        $author_id = abs((int)$author_id);
+        if (0 === $author_id = abs((int)$author_id)) {
+            return null;
+        }
 
         if (!Author::findById($author_id)) {
             throw new \InvalidArgumentException('Некорректный id автора');

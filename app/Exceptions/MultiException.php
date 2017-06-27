@@ -13,6 +13,9 @@ class MultiException extends \Exception
         return $this;
     }
 
+    /**
+     * @return \Exception[]
+     */
     public function getData(): array
     {
         return $this->data;

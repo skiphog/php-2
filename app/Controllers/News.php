@@ -2,17 +2,26 @@
 
 namespace App\Controllers;
 
-use App\Exceptions\NotFoundException;
 use App\Models\Article;
+use App\Exceptions\NotFoundException;
 
 class News extends Controller
 {
+    /**
+     * Главная страница
+     * @throws \App\Exceptions\DataBaseException
+     */
     public function actionIndex()
     {
-        $this->view->articles = Article::findAllLatest(3);
+        $this->view->articles = Article::findAll();
         $this->view->display(__DIR__ . '/../../template/news.php');
     }
 
+    /**
+     * Показать одну новость
+     * @throws NotFoundException
+     * @throws \App\Exceptions\DataBaseException
+     */
     public function actionOne()
     {
         if (!$article = Article::findById($this->request->get('id'))) {

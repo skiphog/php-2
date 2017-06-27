@@ -15,17 +15,27 @@ class News extends Controller
      * Все новости
      * @throws \App\Exceptions\DataBaseException
      */
-    public function actionAll()
+    public function actionIndex()
     {
-        $this->view->assign([
-            'authors'  => Author::findAll(),
-            'articles' => Article::findAll()
-        ]);
+        $this->view->articles = Article::findAll();
         $this->view->display(__DIR__ . '/../../../template/admin/index.php');
     }
 
     /**
-     * Редактировать одну новость
+     * Добавление новости
+     * @throws \App\Exceptions\DataBaseException
+     */
+    public function actionCreate()
+    {
+        $this->view->assign([
+            'article' => new Article(),
+            'authors' => Author::findAll()
+        ]);
+        $this->view->display(__DIR__ . '/../../../template/admin/edit.php');
+    }
+
+    /**
+     * Редактирование новости
      * @throws \App\Exceptions\DataBaseException
      * @throws \App\Exceptions\NotFoundException
      */
@@ -35,7 +45,10 @@ class News extends Controller
             throw new NotFoundException('Новость для редактирования не найдена');
         }
 
-        $this->view->article = $article;
+        $this->view->assign([
+            'article' => $article,
+            'authors' => Author::findAll()
+        ]);
         $this->view->display(__DIR__ . '/../../../template/admin/edit.php');
     }
 
@@ -53,16 +66,17 @@ class News extends Controller
         $article = $article_id ? Article::findById($article_id) : new Article();
 
         if (!$article) {
-            throw new ForbiddenException('Новость для обновления не найдена');
+            throw new ForbiddenException('Новость не найдена');
         }
 
         try {
             $article->fill($this->request->post())->save();
-            header('Location: /admin/news/all');
+            header('Location: /admin/news/index');
         } catch (MultiException $e) {
             $this->view->assign([
                 'errors'  => $e,
-                'article' => $article
+                'article' => $article,
+                'authors' => Author::findAll()
             ]);
             $this->view->display(__DIR__ . '/../../../template/admin/edit.php');
         }

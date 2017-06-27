@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Request;
 use App\View;
+use App\Request;
 use App\Exceptions\ForbiddenException;
 
 abstract class Controller

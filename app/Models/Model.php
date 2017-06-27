@@ -105,7 +105,7 @@ abstract class Model
      */
     public function save(): bool
     {
-        if (empty($this->attributes['id'])) {
+        if ($this->isNew()) {
             return $this->insert();
         }
 
@@ -226,5 +226,13 @@ abstract class Model
         }
 
         return null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNew(): bool
+    {
+        return empty($this->attributes['id']);
     }
 }
