@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\Magic;
 use App\Traits\Iterator;
+use App\View\ViewInterface;
 
 /**
  * Class View
@@ -13,6 +14,8 @@ class View implements \Iterator, \Countable
 {
     use Magic;
     use Iterator;
+
+    protected $plugin;
 
     public function assign($data, $value = null)
     {
@@ -27,6 +30,32 @@ class View implements \Iterator, \Countable
 
     public function render(string $template): string
     {
+        if ($this->plugin instanceof ViewInterface) {
+            return $this->plugin->render($this->data, $template);
+        }
+
+        return $this->originRender($template);
+    }
+
+    public function display(string $template): void
+    {
+        echo $this->render($template);
+    }
+
+    public function setPlugin(ViewInterface $view)
+    {
+        $this->plugin = new $view;
+
+        return $this;
+    }
+
+    public function count(): int
+    {
+        return count($this->data);
+    }
+
+    protected function originRender(string $template): string
+    {
         ob_start();
         foreach ($this as $key => $value) {
             $$key = $value;
@@ -35,15 +64,5 @@ class View implements \Iterator, \Countable
         require $template;
 
         return ob_get_clean();
-    }
-
-    public function display(string $template): void
-    {
-        echo $this->render($template);
-    }
-
-    public function count(): int
-    {
-        return count($this->data);
     }
 }

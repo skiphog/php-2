@@ -4,9 +4,17 @@ namespace App\Controllers;
 
 use App\Models\Article;
 use App\Exceptions\NotFoundException;
+use App\View\Twig;
 
 class News extends Controller
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->view->setPlugin(new Twig());
+    }
+
     /**
      * Главная страница
      * @throws \App\Exceptions\DataBaseException

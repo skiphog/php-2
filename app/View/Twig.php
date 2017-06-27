@@ -1,0 +1,26 @@
+<?php
+
+namespace App\View;
+
+use App\Config;
+
+class Twig implements ViewInterface
+{
+    protected $twig;
+
+    public function __construct()
+    {
+        $loader = new \Twig_Loader_Filesystem(Config::getInstance()->data['twig']['path']);
+        $this->twig = new \Twig_Environment($loader, ['cache' => Config::getInstance()->data['twig']['cache']]);
+    }
+
+    public function render(array $data, string $template): string
+    {
+        return $this->twig->render($this->getTemplate($template), $data);
+    }
+
+    private function getTemplate(string $template): string
+    {
+        return pathinfo($template, PATHINFO_BASENAME);
+    }
+}

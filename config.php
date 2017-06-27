@@ -4,7 +4,7 @@ return [
     /**
      * Настройка соединения с базой данных
      */
-    'db'  => [
+    'db'   => [
         'host'     => 'localhost',
         'dbname'   => 'php-2',
         'username' => 'root',
@@ -17,7 +17,15 @@ return [
     /**
      * Настройка пути к файлу с логом
      */
-    'log' => [
+    'log'  => [
         'path' => __DIR__ . '/log.txt'
     ],
+
+    /**
+     * Настройка для Twig
+     */
+    'twig' => [
+        'path'  => __DIR__ . '/template',
+        'cache' => __DIR__ . '/storage/cache'
+    ]
 ];
