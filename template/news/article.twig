@@ -7,6 +7,7 @@
     <h1>{{ article.title }}</h1>
     <hr>
     <div class="mb-3">{{ article.text|nl2br }}</div>
+
     <p><em>{{ article.author is empty ? "Нет автора" : "Автор: " ~ article.author.name }}</em></p>
 
     <div class="text-center">
