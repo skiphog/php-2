@@ -17,7 +17,6 @@ array_walk($parts, function (&$value) {
 
 $action = !empty($parts[1]) ? array_pop($parts) : 'Index';
 $controller = 'App\\Controllers\\' . (!empty($parts[0]) ? implode('\\', $parts) : 'News');
-
 try {
     if (!class_exists($controller)) {
         throw new \BadMethodCallException('Контроллера ' . $controller . ' не существует');

@@ -7,15 +7,7 @@
     <h1>{{ article.title }}</h1>
     <hr>
     <div class="mb-3">{{ article.text|nl2br }}</div>
-    <p>
-        <em>
-            {% if article.author %}
-                Автор: {{ article.author.name }}
-            {% else %}
-                Нет Автора
-            {% endif %}
-        </em>
-    </p>
+    <p><em>{{ article.author is empty ? "Нет автора" : "Автор: " ~ article.author.name }}</em></p>
 
     <div class="text-center">
         <a class="btn btn-outline-info" href="//php-2">Назад</a>

@@ -13,11 +13,7 @@
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{ article.title }}</h5>
                         <small>
-                            {% if article.author %}
-                                Автор: {{ article.author.name }}
-                            {% else %}
-                                Нет Автора
-                            {% endif %}
+                            {{ article.author is empty ? "Нет автора" : "Автор: " ~ article.author.name }}
                         </small>
                     </div>
                     <p class="mb-1">{{ article.shortcut }}</p>
