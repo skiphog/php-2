@@ -26,6 +26,7 @@ return [
      */
     'twig' => [
         'path'  => __DIR__ . '/template',
-        'cache' => __DIR__ . '/storage/cache'
+        'cache' => __DIR__ . '/storage/cache',
+        'debug' => true
     ]
 ];
