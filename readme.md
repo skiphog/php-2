@@ -3,3 +3,6 @@
 * /public - ФронтКонтроллер
 * /template - Шаблоны
 * /test - Тесты
+
+## MultiException
+https://github.com/skiphog/multiexception

@@ -2,9 +2,11 @@
 
 namespace App\Exceptions;
 
-class MultiException extends \Exception
+use App\Traits\IteratorAggregate;
+
+class MultiException extends \Exception implements \IteratorAggregate
 {
-    protected $data = [];
+    use IteratorAggregate;
 
     public function add(\Throwable $e)
     {
@@ -26,7 +28,7 @@ class MultiException extends \Exception
         return empty($this->data);
     }
 
-    public function getAllMessage(): array
+    public function toArray(): array
     {
         return array_map(function ($value) {
             /** @var self $value */

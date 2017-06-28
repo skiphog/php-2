@@ -9,7 +9,7 @@
 <div class="container">
     <?php if (isset($errors) && !$errors->isEmpty()) : ?>
         <div class="alert alert-danger mb-3">
-            <?php foreach ($errors->getData() as $error) : ?>
+            <?php foreach ($errors as $error) : ?>
                 <p><?php echo $error->getMessage(); ?></p>
             <?php endforeach; ?>
         </div>
