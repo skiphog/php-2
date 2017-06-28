@@ -25,8 +25,9 @@ return [
      * Настройка для Twig
      */
     'twig' => [
-        'path'  => __DIR__ . '/template',
-        'cache' => __DIR__ . '/storage/cache',
-        'debug' => true
+        'path'        => __DIR__ . '/template',
+        'cache'       => __DIR__ . '/storage/cache',
+        'auto_reload' => true,
+        'debug'       => true
     ]
 ];
