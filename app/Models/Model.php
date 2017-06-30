@@ -85,7 +85,7 @@ abstract class Model
             }
 
             try {
-                $this->{$key} = $this->fillAttribute($key, $value);
+                $this->{$key} = $value;
             } catch (\Exception $e) {
                 $errors->add($e);
             }
@@ -184,7 +184,9 @@ abstract class Model
      */
     public function __set($key, $value)
     {
-        $this->attributes[$key] = $value;
+        $method = $this->generateMethod('set', $key);
+
+        method_exists($this, $method) ? $this->$method($value) : $this->attributes[$key] = $value;
     }
 
     /**
@@ -197,29 +199,12 @@ abstract class Model
     }
 
     /**
-     * Запускает валидацию, если указан соответствующий метод
-     * @param $key
-     * @param $value
-     * @return mixed
-     */
-    protected function fillAttribute($key, $value)
-    {
-        $data = array_map(function ($v) {
-            return ucfirst($v);
-        }, explode('_', $key));
-
-        $method = 'validate' . implode('', $data);
-
-        return method_exists($this, $method) ? $this->$method($value) : $value;
-    }
-
-    /**
      * @param $key
      * @return mixed
      */
     protected function getAttribute($key)
     {
-        $method = 'get' . ucfirst($key);
+        $method = $this->generateMethod('get', $key);
 
         if (method_exists($this, $method)) {
             return $this->attributes[$key] = $this->$method();
@@ -234,5 +219,32 @@ abstract class Model
     public function isNew(): bool
     {
         return empty($this->attributes['id']);
+    }
+
+    /**
+     * Вспомогательный метод для обхода __set()
+     * @param array $data
+     * @return $this
+     */
+    public function setRawAttributes(array $data)
+    {
+        $this->attributes = $data;
+
+        return $this;
+    }
+
+    /**
+     * Генерирует метод
+     * @param string $particle
+     * @param string $data
+     * @return string
+     */
+    protected function generateMethod(string $particle, string $data)
+    {
+        $method = array_map(function ($v) {
+            return ucfirst($v);
+        }, explode('_', $data));
+
+        return $particle . implode('', $method);
     }
 }

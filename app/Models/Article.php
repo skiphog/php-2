@@ -36,52 +36,51 @@ class Article extends Model
     }
 
     /**
-     * Валидация заголовка
+     * Устанавливает Заголовок
      * @param string $title
-     * @return string
      * @throws \InvalidArgumentException
+     * @return void
      */
-    protected function validateTitle($title): string
+    protected function setTitle($title)
     {
         if (empty($title)) {
             throw new \InvalidArgumentException('Заголовок не может быть пустым');
         }
 
-        return $title;
+        $this->attributes['title'] = $title;
     }
 
     /**
-     * Валидация текста
-     * @param $text
-     * @return string
+     * Устанавливает текст
+     * @param string $text
      * @throws \InvalidArgumentException
+     * @return void
      */
-    protected function validateText($text): string
+    protected function setText($text)
     {
         if (empty($text)) {
             throw new \InvalidArgumentException('Текст не может быть пустым');
         }
 
-        return $text;
+        $this->attributes['text'] = $text;
     }
 
     /**
-     * Валидация id автора
+     * Установка id автора
      * @param $author_id
-     * @return mixed
      * @throws \App\Exceptions\DataBaseException
      * @throws \InvalidArgumentException
+     * @return void
      */
-    protected function validateAuthorId($author_id)
+    protected function setAuthorId($author_id)
     {
         if (0 === $author_id = abs((int)$author_id)) {
-            return null;
+            $this->attributes['author_id'] = null;
+        } else {
+            if (!Author::findById($author_id)) {
+                throw new \InvalidArgumentException('Некорректный id автора');
+            }
+            $this->attributes['author_id'] = $author_id;
         }
-
-        if (!Author::findById($author_id)) {
-            throw new \InvalidArgumentException('Некорректный id автора');
-        }
-
-        return $author_id;
     }
 }

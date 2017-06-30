@@ -26,11 +26,11 @@ try {
     $controller->action($action);
 } catch (DataBaseException $e) {
     Logger::log($e);
-    (new Error())->action(503);
+    (new Error())->action('503');
 } catch (NotFoundException | ForbiddenException | BadMethodCallException $e) {
     Logger::log($e);
-    (new Error())->action(404);
+    (new Error())->action('404');
 } catch (Throwable $e) {
     Logger::log($e);
-    (new Error())->action(500);
+    (new Error())->action('500');
 }

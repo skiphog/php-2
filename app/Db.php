@@ -53,7 +53,7 @@ class Db
         try {
             $sth = $this->dbh->prepare($sql);
             $sth->execute($params);
-            return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+            return $this->fetchClass($sth, $class);
         } catch (\Exception $e) {
             throw new DataBaseException('Ошибка в запросе', $e->getCode(), $e);
         }
@@ -65,5 +65,22 @@ class Db
     public function lastInsertId(): int
     {
         return $this->dbh->lastInsertId();
+    }
+
+    /**
+     * Для того, что бы не вызывался __set() при заполнении модели из БД
+     * @param \PDOStatement $sth
+     * @param string        $class
+     * @return mixed
+     */
+    private function fetchClass(\PDOStatement $sth, string $class)
+    {
+        $data = [];
+        while ($row = $sth->fetch(\PDO::FETCH_ASSOC)) {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $data[] = (new $class)->setRawAttributes($row);
+        }
+
+        return $data;
     }
 }
