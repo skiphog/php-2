@@ -3,7 +3,8 @@
 <div class="container">
     <h1 class="text-center">Админка</h1>
     <?php
-    echo (new \App\View\AdminDataTable($articles, require __DIR__ . '/../../app/View/funcArticles.php'))->render();
+    echo (new \App\View\AdminDataTable($articles, require __DIR__ . '/../../app/View/funcArticles.php'))
+        ->render(__DIR__ . '/../../template/admin/tableArticles.php');
     ?>
     <div class="text-center mb-5">
         <a href="//php-2/admin/news/create" class="btn btn-outline-success">Добавить новость</a>

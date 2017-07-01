@@ -24,13 +24,13 @@ class AdminDataTable
         $this->functions = $functions;
     }
 
-    public function render()
+    public function render(string $template)
     {
         $view = new View();
         $view->assign([
             'models'    => $this->models,
             'functions' => $this->functions
         ]);
-        return $view->render(__DIR__ . '/../../template/admin/particles/table.php');
+        return $view->render($template);
     }
 }
