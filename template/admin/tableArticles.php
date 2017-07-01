@@ -1,4 +1,5 @@
-<?php /**
+<?php
+/**
  * @var \App\Models\Model[] $models
  * @var array               $functions
  */
