@@ -1,3 +1,4 @@
+<?php /** @var \App\Models\Article $article */ ?>
 <a href="//php-2/admin/news/edit?id=<?php echo $article->id; ?>"
         class="btn btn-outline-primary btn-sm">
     Редактировать
