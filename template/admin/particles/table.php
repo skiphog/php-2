@@ -11,6 +11,8 @@
                     <?php echo $function($model); ?>
                 </td>
             <?php endforeach; ?>
+
+            <!-- todo:: переделать !!! -->
             <td>
                 <a href="//php-2/admin/news/edit?id=<?php echo $model->id; ?>"
                         class="btn btn-outline-primary btn-sm">

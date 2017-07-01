@@ -9,4 +9,6 @@ return [
     function (Article $article) {
         return (null !== $article->author) ? $article->author->name : 'Нет автора';
     },
+
+
 ];
