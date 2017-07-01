@@ -43,19 +43,6 @@ abstract class Model
     }
 
     /**
-     * Получает записи отсортированные по id
-     * @param int $limit
-     * @return mixed
-     * @throws \App\Exceptions\DataBaseException
-     */
-    public static function findAllLatest(int $limit)
-    {
-        $sql = 'SELECT * FROM ' . static::$table . ' ORDER BY id DESC LIMIT ' . $limit;
-
-        return (new Db())->query($sql, static::class);
-    }
-
-    /**
      * Получает одну запись по id
      * @param int $id
      * @return mixed
@@ -65,8 +52,20 @@ abstract class Model
     {
         $sql = 'SELECT * FROM ' . static::$table . ' WHERE id = :id LIMIT 1';
         $result = (new Db())->query($sql, static::class, [':id' => $id]);
-
         return empty($result) ? false : array_shift($result);
+    }
+
+    /**
+     * Получает записи отсортированные по id
+     * @param int $limit
+     * @return mixed
+     * @throws \App\Exceptions\DataBaseException
+     */
+    public static function findAllLatest(int $limit)
+    {
+        $sql = 'SELECT * FROM ' . static::$table . ' ORDER BY id DESC LIMIT ' . $limit;
+
+        return (new Db())->queryEach($sql, static::class);
     }
 
     /**

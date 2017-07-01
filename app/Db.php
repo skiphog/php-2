@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Exceptions\DataBaseException;
+use App\Models\Model;
 
 class Db
 {
@@ -54,6 +55,30 @@ class Db
             $sth = $this->dbh->prepare($sql);
             $sth->execute($params);
             return $this->fetchClass($sth, $class);
+        } catch (\Exception $e) {
+            throw new DataBaseException('Ошибка в запросе', $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param string $sql
+     * @param string $class
+     * @param array  $params
+     * @return \Generator
+     * @throws DataBaseException
+     */
+    public function queryEach(string $sql, string $class, array $params = [])
+    {
+        try {
+            $sth = $this->dbh->prepare($sql);
+            $sth->execute($params);
+
+            while ($row = $sth->fetch(\PDO::FETCH_ASSOC)) {
+                /** @var Model $class */
+                $class = new $class();
+                // минует __set() при заполнении модели
+                yield $class->setRawAttributes($row);
+            }
         } catch (\Exception $e) {
             throw new DataBaseException('Ошибка в запросе', $e->getCode(), $e);
         }
