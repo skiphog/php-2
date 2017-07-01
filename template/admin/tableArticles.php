@@ -5,6 +5,11 @@
  */
 ?>
 <table class="table">
+    <tr>
+        <th>Заголовок</th>
+        <th>Автор</th>
+        <th>Управление</th>
+    </tr>
     <?php foreach ($models as $model) : ?>
         <tr>
             <?php foreach ($functions as $function) : ?>
@@ -12,8 +17,6 @@
                     <?php echo $function($model); ?>
                 </td>
             <?php endforeach; ?>
-        </tr>
-        <tr>
             <td>
                 <a href="//php-2/admin/news/edit?id=<?php echo $model->id; ?>"
                         class="btn btn-outline-primary btn-sm">
