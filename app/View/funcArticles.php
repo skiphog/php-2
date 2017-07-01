@@ -11,7 +11,7 @@ return [
     },
     function (Article $article) {
         $view = new \App\View();
-        $view->article = $article;
+        $view->id = $article->id;
         return $view->render(__DIR__ . '/../../template/admin/particles/articleButtons.php');
     }
 ];
