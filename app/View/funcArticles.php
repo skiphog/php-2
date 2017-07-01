@@ -12,6 +12,6 @@ return [
     function (Article $article) {
         $view = new \App\View();
         $view->article = $article;
-        return $view->render(__DIR__ . '/../../template/admin/particles/buttons.php');
+        return $view->render(__DIR__ . '/../../template/admin/particles/articleButtons.php');
     }
 ];

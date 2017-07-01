@@ -1,7 +1,7 @@
 <?php /** @var $articles \App\Models\Article[] */ ?>
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <div class="container">
-    <h1 class="text-center">Управление новостями</h1>
+    <h1 class="text-center">Админка</h1>
     <?php
     echo (new \App\View\AdminDataTable($articles, require __DIR__ . '/../../app/View/funcArticles.php'))->render();
     ?>
