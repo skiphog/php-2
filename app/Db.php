@@ -76,7 +76,10 @@ class Db
             while ($row = $sth->fetch(\PDO::FETCH_ASSOC)) {
                 /** @var Model $class */
                 $class = new $class();
-                // минует __set() при заполнении модели
+                /**
+                 * Минует __set() при заполнении модели
+                 * Я пока не придумал, как сделать так, что бы __set() не вызывался
+                 */
                 yield $class->setRawAttributes($row);
             }
         } catch (\Exception $e) {
