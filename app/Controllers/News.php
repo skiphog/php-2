@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
+use App\View\Twig;
 use App\Models\Article;
 use App\Exceptions\NotFoundException;
-use App\View\Twig;
 
 class News extends Controller
 {
