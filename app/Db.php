@@ -78,7 +78,6 @@ class Db
             while ($row = $sth->fetch()) {
                 yield $row;
             }
-
         } catch (\Exception $e) {
             throw new DataBaseException('Ошибка в запросе', $e->getCode(), $e);
         }
