@@ -221,18 +221,6 @@ abstract class Model
     }
 
     /**
-     * Вспомогательный метод для заполнения модели минуя __set()
-     * @param array $data
-     * @return $this
-     */
-    public function setRawAttributes(array $data)
-    {
-        $this->attributes = $data;
-
-        return $this;
-    }
-
-    /**
      * Генерирует метод
      * @param string $particle
      * @param string $data
