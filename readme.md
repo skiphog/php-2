@@ -1,6 +1,6 @@
 # pr-of-it PHP-2
 ## ДЗ 7
-* Метод queryEach() - https://github.com/skiphog/php-2/blob/master/app/Db.php#L70
+* Метод queryEach() - https://github.com/skiphog/php-2/blob/master/app/Db.php#L69
 * Использование - https://github.com/skiphog/php-2/blob/master/app/Models/Model.php#L64
 ##
 * AdminDataTable - https://github.com/skiphog/php-2/blob/master/app/View/AdminDataTable.php
