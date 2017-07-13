@@ -4,24 +4,31 @@ namespace App\Controllers;
 
 use App\View;
 use App\Request;
+use App\Component\Auth;
 use App\Exceptions\ForbiddenException;
 
 abstract class Controller
 {
     /**
-     * @var View $view
+     * @var View
      */
     protected $view;
 
     /**
-     * @var Request $request
+     * @var Request
      */
     protected $request;
+
+    /**
+     * @var Auth
+     */
+    protected $auth;
 
     public function __construct()
     {
         $this->view = new View();
         $this->request = new Request();
+        $this->auth = new Auth();
     }
 
     public function action(string $action, ...$params): void
@@ -29,7 +36,6 @@ abstract class Controller
         $method = 'action' . $action;
         $this->checkMethod($method);
         $this->checkAccess();
-
         $this->$method(...$params);
     }
 

@@ -11,6 +11,12 @@ use App\Exceptions\ForbiddenException;
 
 class News extends Controller
 {
+
+    protected function assess(): bool
+    {
+        return $this->auth->isAdmin();
+    }
+
     /**
      * Все новости
      * @throws \App\Exceptions\DataBaseException

@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 use App\Logger;
 use App\Controllers\Error;
 use App\Exceptions\NotFoundException;

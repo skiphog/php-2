@@ -24,3 +24,14 @@ function subText(string $text, int $sub, string $end = ' ...')
 
     return $text;
 }
+
+function tap($value, callable $callback = null)
+{
+    if (null === $callback) {
+        return new \App\Helpers\TapProxy($value);
+    }
+
+    $callback($value);
+
+    return $value;
+}
