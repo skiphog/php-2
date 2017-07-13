@@ -86,7 +86,7 @@ class Login extends Controller
             (new User())->fill($data)->save();
             header('Location: /user/login/login');
 
-        } catch (\InvalidArgumentException $e) {
+        } catch (\Exception $e) {
             var_dump($e->getMessage());
             die;
         }
